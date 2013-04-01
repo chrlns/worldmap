@@ -38,7 +38,7 @@ public class Config {
             RecordEnumeration configKeys = config.enumerateRecords(null, null, false);
             while (configKeys.hasNextElement()) {
                 String kv = new String(configKeys.nextRecord());
-                Vector vkv = StringTokenizer.getVector(kv, "=");
+                Vector vkv = StringTokenizer.getVector(kv, '=');
                 keys.put(vkv.elementAt(0), vkv.elementAt(1));
             }
 

@@ -17,6 +17,7 @@ import javax.microedition.rms.RecordStoreException;
 import javax.microedition.rms.RecordStoreFullException;
 
 import me.lins.apps.worldmap.MapMIDlet;
+import me.lins.apps.worldmap.util.StringTokenizer;
 
 /**
  * Cache that resides in the application's Record Store.
@@ -45,7 +46,7 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
 
             while (indices.hasNextElement()) {
                 byte[] buf = indices.nextRecord();
-                Vector indexChunks = StringTokenizer.getVector(new String(buf), "=");
+                Vector indexChunks = StringTokenizer.getVector(new String(buf), '=');
                 keys.put(indexChunks.elementAt(0), indexChunks.elementAt(1));
             }
 
