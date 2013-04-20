@@ -56,6 +56,8 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
         } catch (RecordStoreException ex) {
             ex.printStackTrace();
             this.isEnabled = false;
+        } catch (Exception ex) {
+            lowMemAction(); // Resetting the RMS cache
         }
         this.successor.initialize();
         return true;
@@ -95,8 +97,12 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
      */
     private void lowMemAction() {
         try {
-            this.rsImages.closeRecordStore();
-            this.rsIndex.closeRecordStore();
+            if (rsImages != null) {
+                this.rsImages.closeRecordStore();
+            }
+            if (rsIndex != null) {
+                this.rsIndex.closeRecordStore();
+            }
             RecordStore.deleteRecordStore("images");
             RecordStore.deleteRecordStore("index");
             initialize(); // Reinitialize

@@ -22,6 +22,7 @@ import me.lins.apps.worldmap.MapMIDlet;
  */
 public class Location {
 
+    private boolean   disabled   = false;
     private float     x, y;
     private Timer     timer      = null;
     private final int satellites = 3;
@@ -31,7 +32,9 @@ public class Location {
         this.y = 52.0f; // y
         this.x = 8.0f; // x
         this.midlet = midlet;
-        updateLocation();
+        if (hasLocationProvider()) {
+            enableUpdateTimer(5);
+        }
     }
 
     public Location(float x, float y) {
@@ -39,14 +42,20 @@ public class Location {
         this.y = y;
     }
 
-    public void enableUpdateTimer(int secInterval) {
+    protected void enableUpdateTimer(int secInterval) {
         secInterval = secInterval * 1000;
         this.timer = new Timer();
         this.timer.schedule(new TimerTask() {
 
             public void run() {
-                if (updateLocation()) {
-                    midlet.getMap().locationUpdated();
+                try {
+                    if (!disabled && updateLocation()) {
+                        midlet.getMap().locationUpdated();
+                    }
+                } catch (Throwable t) {
+                    t.printStackTrace();
+                    cancel();
+                    disabled = true;
                 }
             }
         }, secInterval, secInterval);
@@ -81,12 +90,15 @@ public class Location {
     }
 
     /**
-     * Updates the coordinates of this instance using a LocationProvider or an
-     * attached Bluetooth GPS device.
+     * Updates the coordinates of this instance using a LocationProvider.
      * 
      * @return
      */
     public boolean updateLocation() {
+        if (disabled) {
+            return false;
+        }
+
         boolean updated = false;
 
         try {
@@ -97,8 +109,9 @@ public class Location {
                 this.x = (float) coord.getLongitude();
                 updated = true;
             }
-        } catch (Throwable ex) {
-            ex.printStackTrace();
+
+        } catch (SecurityException ex) {
+            disabled = true;
         }
 
         return updated;

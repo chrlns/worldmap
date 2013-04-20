@@ -34,7 +34,6 @@ public class TileLoader extends Thread {
         try {
             TileLoadingTask task = null;
             for (;;) {
-                System.out.println("loop");
                 synchronized (this.tasks) {
                     Enumeration keys = tasks.keys();
                     if (keys.hasMoreElements()) {
@@ -58,7 +57,7 @@ public class TileLoader extends Thread {
                 }
             }
         } catch (InterruptedException ex) {
-            ex.printStackTrace();
+            System.out.println("TileLoader thread interrupted.");
         }
         System.out.println("TileLoader thread ended.");
     }

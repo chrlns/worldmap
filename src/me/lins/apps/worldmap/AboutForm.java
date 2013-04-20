@@ -20,11 +20,11 @@ import javax.microedition.lcdui.StringItem;
  */
 public class AboutForm extends Form implements CommandListener {
 
-    public static final Command     BACK = new Command("Back", null, Command.BACK, 0);
-    private final MapMIDlet midlet;
+    public static final Command BACK = new Command("Back", null, Command.BACK, 0);
+    private final MapMIDlet     midlet;
 
     public AboutForm(MapMIDlet midlet) {
-        super("Ãœber diese Anwendung");
+        super("About WorldMap");
 
         this.midlet = midlet;
 
@@ -33,11 +33,6 @@ public class AboutForm extends Form implements CommandListener {
         append(new StringItem("Author", midlet.getAppProperty("MIDlet-Vendor")));
         append(new Spacer(getWidth(), 5));
         append("Geodata © OpenStreetMap and contributors, CC-BY-SA");
-        append(new Spacer(getWidth(), 5));
-        append("This program is free software: you can redistribute it and/or modify"
-                + " it under the terms of the GNU General Public License as published by "
-                + "the Free Software Foundation, either version 3 of the License, or "
-                + "(at your option) any later version.");
 
         addCommand(BACK);
         setCommandListener(this);

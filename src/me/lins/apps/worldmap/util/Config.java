@@ -39,7 +39,11 @@ public class Config {
             while (configKeys.hasNextElement()) {
                 String kv = new String(configKeys.nextRecord());
                 Vector vkv = StringTokenizer.getVector(kv, '=');
-                keys.put(vkv.elementAt(0), vkv.elementAt(1));
+                if (vkv.size() == 2) {
+                    keys.put(vkv.elementAt(0), vkv.elementAt(1));
+                } else {
+                    System.err.println("Skipping invalid config string: " + kv);
+                }
             }
 
             configKeys.destroy();

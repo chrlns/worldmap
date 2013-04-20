@@ -26,10 +26,10 @@ import me.lins.apps.worldmap.MapMIDlet;
  */
 class OnlineFileSource implements TileCache {
 
-    public static final String      OSM_URL = "http://tile.openstreetmap.org/";
-    public static final String      OCM_URL = "http://tile.opencyclemap.org/cycle/";
+    public static final String OSM_URL = "http://tile.openstreetmap.org/";
+    public static final String OCM_URL = "http://tile.opencyclemap.org/cycle/";
 
-    private final MapMIDlet midlet;
+    private final MapMIDlet    midlet;
 
     public OnlineFileSource(MapMIDlet midlet) {
         this.midlet = midlet;
@@ -62,6 +62,10 @@ class OnlineFileSource implements TileCache {
     }
 
     public Image loadImage(int zoom, int x, int y, int mapSource, boolean goDown, Vector obs) {
+        if (y < 0) {
+            return null;
+        }
+
         String url;
         if (mapSource == TileCache.SOURCE_OPENCYCLEMAP) {
             url = OCM_URL;

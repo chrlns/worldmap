@@ -61,7 +61,6 @@ class MemoryTileCache implements TileCache {
     }
 
     public Image loadImage(int zoom, int x, int y, int mapSource, boolean goDown, Vector obs) {
-
         // Hopefully efficiently build the key string
         StringBuffer str = new StringBuffer();
         str.append(mapSource);

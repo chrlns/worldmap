@@ -28,6 +28,8 @@ import me.lins.apps.worldmap.osmbugs.OpenStreetBugs;
 import me.lins.apps.worldmap.util.Config;
 import me.lins.apps.worldmap.util.Math2;
 
+import com.nokia.mid.ui.gestures.GestureRegistrationManager;
+
 /**
  * Main draw canvas (Map).
  * 
@@ -70,20 +72,20 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         this.midlet = midlet;
         this.gpsPos = new Location(midlet);
         try {
-            // Set up this canvas to listen to command events
             setCommandListener(this);
 
-            // Add the Exit command
             addCommand(cmdExit);
 
             // addCommand(cmdBugreport);
             // addCommand(cmdShowBugs);
             // addCommand(cmdSwitchCycleMap);
-            // addCommand(cmdFollow);
-            // addCommand(cmdAddBTGPS);
-            addCommand(cmdDebug);
+            addCommand(cmdFollow);
+
+            // addCommand(cmdDebug);
             addCommand(cmdAbout);
             addCommand(cmdHelp);
+
+            GestureRegistrationManager.setListener(this, new MapGestureListener(this));
 
             float x = midlet.getConfig().get(Config.POS_X, gpsPos.getX());
             float y = midlet.getConfig().get(Config.POS_Y, gpsPos.getY());
@@ -97,7 +99,6 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             }
 
             centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
-            this.gpsPos.enableUpdateTimer(5);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -223,50 +224,48 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
     protected void keyPressed(int keyCode) {
         float zs = 10.0f / (1 << zoom);
         switch (keyCode) {
-        case -1: // Up
-        case 50:
-            // offY += 10;
-            scrollPos.shift(0, zs);
-            // gpsShf.shift(0.05 / zoom, 0);
-            // lat += 0.05 / zoom;
-            break;
-        case -2: // Down
-        case 56:
-            // offY -= 10;
-            scrollPos.shift(0, -zs);
-            // gpsShf.shift(-0.05 / zoom, 0);
-            // lat -= 0.05 / zoom;
-            break;
-        case -3: // Left
-        case 52:
-            // offX += 10;
-            // lon -= 0.05 / zoom;
-            scrollPos.shift(-zs, 0);
-            // gpsShf.shift(0, -0.05 / zoom);
-            break;
-        case -4: // Right
-        case 54:
-            // offX -= 10;
-            // lon += 0.05 / zoom;
-            scrollPos.shift(zs, 0);
-            // gpsShf.shift(0, 0.05 / zoom);
-            break;
-        case -5: // ENTER
-        case 53: // '5' to zoom in
-            if (zoom < 18)
-                zoom++;
-            break;
-        case 48: // '0' to zoom out
-            if (zoom > 1)
-                zoom--;
-            break;
-        case 49: // '1' center view on GPS position
-            // this.scrollPos =
-            // new Location(this.gpsPos.getX(), this.gpsPos.getY());
-            repaint();
-            break;
-        default:
-            System.out.println(keyCode);
+            case -1: // Up
+            case 50:
+                // offY += 10;
+                scrollPos.shift(0, zs);
+                // gpsShf.shift(0.05 / zoom, 0);
+                // lat += 0.05 / zoom;
+                break;
+            case -2: // Down
+            case 56:
+                // offY -= 10;
+                scrollPos.shift(0, -zs);
+                // gpsShf.shift(-0.05 / zoom, 0);
+                // lat -= 0.05 / zoom;
+                break;
+            case -3: // Left
+            case 52:
+                // offX += 10;
+                // lon -= 0.05 / zoom;
+                scrollPos.shift(-zs, 0);
+                // gpsShf.shift(0, -0.05 / zoom);
+                break;
+            case -4: // Right
+            case 54:
+                // offX -= 10;
+                // lon += 0.05 / zoom;
+                scrollPos.shift(zs, 0);
+                // gpsShf.shift(0, 0.05 / zoom);
+                break;
+            case -5: // ENTER
+            case 53: // '5' to zoom in
+                zoomIn();
+                break;
+            case 48: // '0' to zoom out
+                zoomOut();
+                break;
+            case 49: // '1' center view on GPS position
+                // this.scrollPos =
+                // new Location(this.gpsPos.getX(), this.gpsPos.getY());
+                repaint();
+                break;
+            default:
+                System.out.println(keyCode);
         }
 
         centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
@@ -384,4 +383,15 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         repaint();
     }
 
+    public void zoomIn() {
+        if (zoom < 18)
+            zoom++;
+        repaint();
+    }
+
+    public void zoomOut() {
+        if (zoom > 1)
+            zoom--;
+        repaint();
+    }
 }
