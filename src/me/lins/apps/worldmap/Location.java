@@ -20,19 +20,22 @@ import javax.microedition.location.QualifiedCoordinates;
  */
 public class Location {
 
-    private boolean   disabled   = false;
+    private boolean   disabled                   = true;
+    private boolean   hasLocationProviderChecked = false;
     private float     x, y;
-    private Timer     timer      = null;
-    private final int satellites = 3;
+    private Timer     timer                      = null;
+    private final int satellites                 = 3;
     private MapMIDlet midlet;
 
     public Location(MapMIDlet midlet) {
         this.y = 52.0f; // y
         this.x = 8.0f; // x
         this.midlet = midlet;
+
         if (hasLocationProvider()) {
             enableUpdateTimer(5);
         }
+
     }
 
     public Location(float x, float y) {
@@ -63,14 +66,20 @@ public class Location {
         return this.satellites;
     }
 
-    public boolean hasLocationProvider() {
+    public synchronized boolean hasLocationProvider() {
+        if (hasLocationProviderChecked) {
+            return !this.disabled;
+        }
+
         try {
             if (LocationProvider.getInstance(null) != null) {
+                this.disabled = false;
                 return true;
             }
         } catch (Throwable t) {
             t.printStackTrace();
         }
+        hasLocationProviderChecked = true;
         return false;
     }
 
