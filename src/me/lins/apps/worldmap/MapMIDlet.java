@@ -14,7 +14,7 @@ import me.lins.apps.worldmap.io.TileCacheManager;
 import me.lins.apps.worldmap.util.Config;
 
 /**
- * The main midlet of the application.
+ * The main MIDlet of the application.
  * 
  * @author Christian Lins
  */

@@ -27,8 +27,12 @@ public final class TileCacheManager {
     }
 
     public static void initialize(MapMIDlet midlet) {
-        memoryTileCache = new MemoryTileCache(
-                new RMSTileCache(midlet, new OnlineFileSource(midlet)));
+        memoryTileCache = new MemoryTileCache(new JarTileCache(/*
+                                                                * new
+                                                                * RMSTileCache
+                                                                * (midlet,
+                                                                */
+        new OnlineFileSource(midlet)));
         TileCacheManager.memoryTileCache.initialize();
         loader = new TileLoader();
         loader.start();

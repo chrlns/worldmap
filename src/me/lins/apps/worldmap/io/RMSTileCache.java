@@ -113,6 +113,10 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
     }
 
     public void tileLoaded(Image img, int zoom, int x, int y, int mapSource, byte[] raw) {
+        if (raw == null) {
+            return;
+        }
+
         try {
             int id = rsImages.addRecord(raw, 0, raw.length);
 
