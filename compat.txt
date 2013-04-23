@@ -1,0 +1,12 @@
+Only supported by
+S40 Developer Platform 2.0:
+    - Nokia 3050:           unknown, not supported
+    - Nokia 3060:           unknown, not supported
+    - Nokia 3080:           unknown, not supported
+    - Nokia 3090:           unknown, not supported
+    - Nokia 3110:           unknown, not supported
+    - Nokia Asha 305:       supported
+    - Nokia Asha 306:       supported
+    - Nokia Asha 308/310:   supported
+    - Nokia Asha 309:       supported
+    - Nokia Asha 311:       supported

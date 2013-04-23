@@ -14,11 +14,9 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
-import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 
-import me.lins.apps.worldmap.io.Location;
 import me.lins.apps.worldmap.io.TileCache;
 import me.lins.apps.worldmap.io.TileCacheManager;
 import me.lins.apps.worldmap.io.TileLoadingObserver;
@@ -38,7 +36,6 @@ import com.nokia.mid.ui.gestures.GestureRegistrationManager;
 public class Map extends Canvas implements CommandListener, BugReceiver, TileLoadingObserver {
 
     public static final int MAXBUGS            = 32;
-
     private final Command   cmdHelp            = new Command("Help", Command.ITEM, 0);
     private final Command   cmdExit            = new Command("Exit", Command.EXIT, 1);
     private final Command   cmdBugreport       = new Command("Map Error", "Report Map Error",
@@ -60,6 +57,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
     private int[]           centerTileNumbers;
     private final Location  gpsPos;
     private Location        scrollPos;
+    private int             scrollPosX, scrollPosY;
     private final Bug[]     bugs               = new Bug[MAXBUGS];
     private int             bugPnt             = 0;
     private int             mapSource          = TileCache.SOURCE_OPENSTREETMAP;
@@ -186,18 +184,21 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             drawGPSDot(g, pos[0], pos[1]);
 
             // Draw white bar at the bottom
-            g.setColor(255, 255, 255);
-            g.fillRect(0, getHeight() - 16, getWidth() / 2, getHeight() - 16);
-
-            // Draw cursor and cursor position
-            g.setColor(0, 0, 0);
-            g.setFont(Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN, Font.SIZE_SMALL));
-            g.fillArc(getWidth() / 2 - 2, getHeight() / 2 - 2, 4, 4, 0, 360);
-            String scrollPosStr = (Double.toString(scrollPos.getX()) + "0000000").substring(0, 7)
-                    + " " + (Double.toString(scrollPos.getY()) + "0000000").substring(0, 7);
-            g.drawString(scrollPosStr, 1, getHeight() - 1, Graphics.BOTTOM | Graphics.LEFT);
-
-            // Draw GPS-Status
+            /*
+             * g.setColor(255, 255, 255); g.fillRect(0, getHeight() - 16,
+             * getWidth() / 2, getHeight() - 16);
+             * 
+             * // Draw cursor and cursor position g.setColor(0, 0, 0);
+             * g.setFont(Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN,
+             * Font.SIZE_SMALL)); g.fillArc(getWidth() / 2 - 2, getHeight() / 2
+             * - 2, 4, 4, 0, 360); String scrollPosStr =
+             * (Double.toString(scrollPos.getX()) + "0000000").substring(0, 7) +
+             * " " + (Double.toString(scrollPos.getY()) +
+             * "0000000").substring(0, 7); g.drawString(scrollPosStr, 1,
+             * getHeight() - 1, Graphics.BOTTOM | Graphics.LEFT);
+             * 
+             * // Draw GPS-Status
+             */
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -384,14 +385,31 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
     }
 
     public void zoomIn() {
-        if (zoom < 18)
+        if (zoom < 18) {
             zoom++;
-        repaint();
+            centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
+            repaint();
+        }
     }
 
     public void zoomOut() {
-        if (zoom > 1)
+        if (zoom > 1) {
             zoom--;
+            centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
+            repaint();
+        }
+    }
+
+    /**
+     * Shift scroll position with given pixel values.
+     * 
+     * @param dx
+     * @param dy
+     */
+    public void shiftPixel(int dx, int dy) {
+        float[] rpp = Math2.radPerPixel(zoom);
+        this.scrollPos.shift(rpp[0] * -dx, rpp[1] * dy);
+        centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
         repaint();
     }
 }

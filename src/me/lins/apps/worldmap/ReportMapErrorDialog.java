@@ -14,7 +14,6 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 
-import me.lins.apps.worldmap.io.Location;
 import me.lins.apps.worldmap.osmbugs.OpenStreetBugs;
 
 /**

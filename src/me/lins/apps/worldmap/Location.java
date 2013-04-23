@@ -5,15 +5,13 @@
  *  All rights reserved.
  */
 
-package me.lins.apps.worldmap.io;
+package me.lins.apps.worldmap;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.microedition.location.LocationProvider;
 import javax.microedition.location.QualifiedCoordinates;
-
-import me.lins.apps.worldmap.MapMIDlet;
 
 /**
  * A position on planet earth.

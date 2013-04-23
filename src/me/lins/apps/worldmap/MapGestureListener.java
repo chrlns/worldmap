@@ -42,6 +42,12 @@ public class MapGestureListener implements GestureListener {
                     lastTap = System.currentTimeMillis();
                 }
                 break;
+            case GestureInteractiveZone.GESTURE_DRAG:
+                int dx = gestureEvent.getDragDistanceX();
+                int dy = gestureEvent.getDragDistanceY();
+                System.out.println("Gesture Event: DRAG " + dx + " " + dy);
+                this.map.shiftPixel(dx, dy);
+                break;
         }
     }
 }

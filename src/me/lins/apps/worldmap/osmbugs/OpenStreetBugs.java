@@ -14,7 +14,7 @@ import java.io.InputStream;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 
-import me.lins.apps.worldmap.io.Location;
+import me.lins.apps.worldmap.Location;
 
 /**
  * Facade to the OpenStreetBugs API.
