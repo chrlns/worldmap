@@ -48,6 +48,13 @@ public class MapGestureListener implements GestureListener {
                 System.out.println("Gesture Event: DRAG " + dx + " " + dy);
                 this.map.shiftPixel(dx, dy);
                 break;
+            case GestureInteractiveZone.GESTURE_PINCH:
+                if (gestureEvent.getPinchDistanceChange() < 0) {
+                    this.map.zoomOut();
+                } else {
+                    this.map.zoomIn();
+                }
+                break;
         }
     }
 }
