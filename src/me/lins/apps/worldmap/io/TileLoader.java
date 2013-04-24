@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.

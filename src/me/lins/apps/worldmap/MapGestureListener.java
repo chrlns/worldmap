@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -35,7 +35,7 @@ public class MapGestureListener implements GestureListener {
             case GestureInteractiveZone.GESTURE_TAP:
                 if (System.currentTimeMillis() - lastTap < DOUBLE_TAP_TRESHOLD) {
                     System.out.println("Gesture Event: DOUBLE TAP");
-                    this.map.zoomIn();
+                    this.map.zoomIn(gestureEvent.getStartX(), gestureEvent.getStartY());
                     lastTap = 0;
                 } else {
                     System.out.println("Gesture Event: TAP");
@@ -50,9 +50,9 @@ public class MapGestureListener implements GestureListener {
                 break;
             case GestureInteractiveZone.GESTURE_PINCH:
                 if (gestureEvent.getPinchDistanceChange() < 0) {
-                    this.map.zoomOut();
+                    this.map.zoomOut(gestureEvent.getPinchCenterX(), gestureEvent.getPinchCenterY());
                 } else {
-                    this.map.zoomIn();
+                    this.map.zoomIn(gestureEvent.getPinchCenterX(), gestureEvent.getPinchCenterY());
                 }
                 break;
         }

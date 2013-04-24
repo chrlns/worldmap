@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -59,88 +59,88 @@ public class OpenStreetBugs {
         for (int i = 0; i < s.length(); i++) {
             ch = s.charAt(i);
             switch (ch) {
-            case ' ': {
-                sbuf.append("+");
-                break;
-            }
-            case '!': {
-                sbuf.append("%21");
-                break;
-            }
-            case '*': {
-                sbuf.append("%2A");
-                break;
-            }
-            case '\'': {
-                sbuf.append("%27");
-                break;
-            }
-            case '(': {
-                sbuf.append("%28");
-                break;
-            }
-            case ')': {
-                sbuf.append("%29");
-                break;
-            }
-            case ';': {
-                sbuf.append("%3B");
-                break;
-            }
-            case ':': {
-                sbuf.append("%3A");
-                break;
-            }
-            case '@': {
-                sbuf.append("%40");
-                break;
-            }
-            case '&': {
-                sbuf.append("%26");
-                break;
-            }
-            case '=': {
-                sbuf.append("%3D");
-                break;
-            }
-            case '+': {
-                sbuf.append("%2B");
-                break;
-            }
-            case '$': {
-                sbuf.append("%24");
-                break;
-            }
-            case ',': {
-                sbuf.append("%2C");
-                break;
-            }
-            case '/': {
-                sbuf.append("%2F");
-                break;
-            }
-            case '?': {
-                sbuf.append("%3F");
-                break;
-            }
-            case '%': {
-                sbuf.append("%25");
-                break;
-            }
-            case '#': {
-                sbuf.append("%23");
-                break;
-            }
-            case '[': {
-                sbuf.append("%5B");
-                break;
-            }
-            case ']': {
-                sbuf.append("%5D");
-                break;
-            }
-            default:
-                sbuf.append((char) ch);
+                case ' ': {
+                    sbuf.append("+");
+                    break;
+                }
+                case '!': {
+                    sbuf.append("%21");
+                    break;
+                }
+                case '*': {
+                    sbuf.append("%2A");
+                    break;
+                }
+                case '\'': {
+                    sbuf.append("%27");
+                    break;
+                }
+                case '(': {
+                    sbuf.append("%28");
+                    break;
+                }
+                case ')': {
+                    sbuf.append("%29");
+                    break;
+                }
+                case ';': {
+                    sbuf.append("%3B");
+                    break;
+                }
+                case ':': {
+                    sbuf.append("%3A");
+                    break;
+                }
+                case '@': {
+                    sbuf.append("%40");
+                    break;
+                }
+                case '&': {
+                    sbuf.append("%26");
+                    break;
+                }
+                case '=': {
+                    sbuf.append("%3D");
+                    break;
+                }
+                case '+': {
+                    sbuf.append("%2B");
+                    break;
+                }
+                case '$': {
+                    sbuf.append("%24");
+                    break;
+                }
+                case ',': {
+                    sbuf.append("%2C");
+                    break;
+                }
+                case '/': {
+                    sbuf.append("%2F");
+                    break;
+                }
+                case '?': {
+                    sbuf.append("%3F");
+                    break;
+                }
+                case '%': {
+                    sbuf.append("%25");
+                    break;
+                }
+                case '#': {
+                    sbuf.append("%23");
+                    break;
+                }
+                case '[': {
+                    sbuf.append("%5B");
+                    break;
+                }
+                case ']': {
+                    sbuf.append("%5D");
+                    break;
+                }
+                default:
+                    sbuf.append((char) ch);
             }
         }
         return sbuf.toString();

@@ -3,6 +3,6 @@ MIDlet-Vendor: Christian Lins
 MIDlet-Jar-URL: worldmap.jar
 MicroEdition-Configuration: CLDC-1.1
 MicroEdition-Profile: MIDP-2.1
-MIDlet-1: WorldMap OSM Client,/resources/icon.png,me.lins.apps.worldmap.MapMIDlet
+MIDlet-1: WorldMap,/resources/icon.png,me.lins.apps.worldmap.MapMIDlet
 MIDlet-Permissions: javax.microedition.io.Connector.http,javax.microedition.location.Location
-MIDlet-Name: WorldMap OSM Client
+MIDlet-Name: WorldMap

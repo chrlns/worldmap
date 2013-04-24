@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -22,16 +22,14 @@ import me.lins.apps.worldmap.osmbugs.OpenStreetBugs;
  */
 public class ReportMapErrorDialog extends Form implements CommandListener {
 
-    private final Command           cmdCancel    = new Command("Cancel", "Cancel", Command.CANCEL,
-                                                         1);
-    private final Command           cmdSubmitBug = new Command("Submit", "Submit Map Error",
-                                                         Command.ITEM, 1);
-    private final Location          location;
-    private final Map               map;
-    private final TextField         txtUsername  = new TextField("User name:", "NoName", 64,
-                                                         TextField.ANY);
-    private final TextField         txtProblem   = new TextField("Describe the Problem:", "", 255,
-                                                         TextField.ANY);
+    private final Command   cmdCancel    = new Command("Cancel", "Cancel", Command.CANCEL, 1);
+    private final Command   cmdSubmitBug = new Command("Submit", "Submit Map Error", Command.ITEM,
+                                                 1);
+    private final Location  location;
+    private final Map       map;
+    private final TextField txtUsername  = new TextField("User name:", "NoName", 64, TextField.ANY);
+    private final TextField txtProblem   = new TextField("Describe the Problem:", "", 255,
+                                                 TextField.ANY);
     private final MapMIDlet midlet;
 
     public ReportMapErrorDialog(MapMIDlet midlet, Location location, Map map) {

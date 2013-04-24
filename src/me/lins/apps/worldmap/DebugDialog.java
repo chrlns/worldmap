@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -20,7 +20,7 @@ import javax.microedition.lcdui.StringItem;
  */
 public class DebugDialog extends Form implements CommandListener {
 
-    private final Command           cmdBack = new Command("Back", Command.BACK, 0);
+    private final Command   cmdBack = new Command("Back", Command.BACK, 0);
     private final MapMIDlet midlet;
 
     public DebugDialog(MapMIDlet midlet) {

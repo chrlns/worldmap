@@ -1,5 +1,5 @@
 /*
- *  WorldMap - J2ME OpenStreetMap Client
+ *  WorldMap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -36,8 +36,8 @@ import com.nokia.mid.ui.gestures.GestureRegistrationManager;
 public class Map extends Canvas implements CommandListener, BugReceiver, TileLoadingObserver {
 
     public static final int MAXBUGS            = 32;
-    private final Command   cmdHelp            = new Command("Help", Command.ITEM, 0);
-    private final Command   cmdExit            = new Command("Exit", Command.EXIT, 1);
+    private final Command   cmdHelp            = new Command("help", Command.ITEM, 0);
+    private final Command   cmdExit            = new Command("exit", Command.EXIT, 1);
     private final Command   cmdBugreport       = new Command("Map Error", "Report Map Error",
                                                        Command.ITEM, 1);
     private final Command   cmdShowBugs        = new Command("Show Bugs", "Show Map Bugs",
@@ -46,18 +46,17 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
                                                        Command.ITEM, 1);
     private final Command   cmdSwitchStreetMap = new Command("Street Map",
                                                        "Switch to OpenStreetMap", Command.ITEM, 1);
-    private final Command   cmdFollow          = new Command("Follow", "Follow position",
+    private final Command   cmdFollow          = new Command("follow", "follow position",
                                                        Command.ITEM, 1);
     private final Command   cmdUnfollow        = new Command("Unfollow", "Unfollow position",
                                                        Command.ITEM, 1);
-    private final Command   cmdDebug           = new Command("Debug", Command.ITEM, 10);
-    private final Command   cmdAbout           = new Command("About", Command.HELP, 1);
+    private final Command   cmdDebug           = new Command("debug", Command.ITEM, 10);
+    private final Command   cmdAbout           = new Command("about", Command.HELP, 1);
     private boolean         follow             = false;
     private int             zoom               = 1;
     private int[]           centerTileNumbers;
     private final Location  gpsPos;
     private Location        scrollPos;
-    private int             scrollPosX, scrollPosY;
     private final Bug[]     bugs               = new Bug[MAXBUGS];
     private int             bugPnt             = 0;
     private int             mapSource          = TileCache.SOURCE_OPENSTREETMAP;
@@ -219,94 +218,6 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         return new int[] { x, y };
     }
 
-    /**
-     * Called when a key is pressed.
-     */
-    protected void keyPressed(int keyCode) {
-        float zs = 10.0f / (1 << zoom);
-        switch (keyCode) {
-            case -1: // Up
-            case 50:
-                // offY += 10;
-                scrollPos.shift(0, zs);
-                // gpsShf.shift(0.05 / zoom, 0);
-                // lat += 0.05 / zoom;
-                break;
-            case -2: // Down
-            case 56:
-                // offY -= 10;
-                scrollPos.shift(0, -zs);
-                // gpsShf.shift(-0.05 / zoom, 0);
-                // lat -= 0.05 / zoom;
-                break;
-            case -3: // Left
-            case 52:
-                // offX += 10;
-                // lon -= 0.05 / zoom;
-                scrollPos.shift(-zs, 0);
-                // gpsShf.shift(0, -0.05 / zoom);
-                break;
-            case -4: // Right
-            case 54:
-                // offX -= 10;
-                // lon += 0.05 / zoom;
-                scrollPos.shift(zs, 0);
-                // gpsShf.shift(0, 0.05 / zoom);
-                break;
-            case -5: // ENTER
-            case 53: // '5' to zoom in
-                zoomIn();
-                break;
-            case 48: // '0' to zoom out
-                zoomOut();
-                break;
-            case 49: // '1' center view on GPS position
-                // this.scrollPos =
-                // new Location(this.gpsPos.getX(), this.gpsPos.getY());
-                repaint();
-                break;
-            default:
-                System.out.println(keyCode);
-        }
-
-        centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
-        repaint();
-    }
-
-    /**
-     * Called when a key is released.
-     */
-    protected void keyReleased(int keyCode) {
-    }
-
-    /**
-     * Called when a key is repeated (held down).
-     */
-    protected void keyRepeated(int keyCode) {
-        if (keyCode < 0) {
-            keyPressed(keyCode);
-            keyPressed(keyCode);
-        }
-    }
-
-    /**
-     * Called when the pointer is dragged.
-     */
-    protected void pointerDragged(int x, int y) {
-    }
-
-    /**
-     * Called when the pointer is pressed.
-     */
-    protected void pointerPressed(int x, int y) {
-    }
-
-    /**
-     * Called when the pointer is released.
-     */
-    protected void pointerReleased(int x, int y) {
-    }
-
     public void receiveBug(Bug bug) {
         System.out.println("Bug: " + bug.getText());
         this.bugs[this.bugPnt] = bug;
@@ -384,20 +295,38 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         repaint();
     }
 
-    public void zoomIn() {
+    public void zoomIn(int x, int y) {
+        int dx = getWidth() / 2 - x;
+        int dy = getHeight() / 2 - y;
+
         if (zoom < 18) {
+            shiftPixel(dx, dy, false);
+
             zoom++;
             centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
             repaint();
+        } else if (dx != 0 || dy != 0) {
+            shiftPixel(dx, dy);
         }
     }
 
-    public void zoomOut() {
+    public void zoomOut(int x, int y) {
+        int dx = getWidth() / 2 - x;
+        int dy = getHeight() / 2 - y;
+
         if (zoom > 1) {
+            shiftPixel(dx, dy, false);
+
             zoom--;
             centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
             repaint();
+        } else if (dx != 0 || dy != 0) {
+            shiftPixel(dx, dy);
         }
+    }
+
+    public void shiftPixel(int dx, int dy) {
+        shiftPixel(dx, dy, true);
     }
 
     /**
@@ -406,10 +335,16 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
      * @param dx
      * @param dy
      */
-    public void shiftPixel(int dx, int dy) {
+    protected void shiftPixel(int dx, int dy, boolean repaint) {
+        if (dx == 0 && dy == 0) {
+            return;
+        }
+
         float[] rpp = Math2.radPerPixel(zoom);
         this.scrollPos.shift(rpp[0] * -dx, rpp[1] * dy);
         centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
-        repaint();
+        if (repaint) {
+            repaint();
+        }
     }
 }
