@@ -37,6 +37,10 @@ public class JarTileCache implements TileCache {
     }
 
     public Image loadImage(int zoom, int x, int y, int mapSource, boolean goDown, Vector observer) {
+        if (y < 0) {
+            return null;
+        }
+
         String uri = "/resources/" + mapSource + "/" + zoom + "/" + x + "/" + y + ".png";
 
         try {

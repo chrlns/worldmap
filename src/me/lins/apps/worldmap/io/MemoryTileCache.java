@@ -19,7 +19,7 @@ import javax.microedition.lcdui.Image;
  */
 class MemoryTileCache implements TileCache {
 
-    private final int       cacheSize = 32;
+    private final int       cacheSize = 54;
     private final Hashtable tiles     = new Hashtable(cacheSize);
     private Vector          keys      = new Vector(cacheSize);
     private final TileCache successor;

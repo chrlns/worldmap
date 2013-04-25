@@ -61,6 +61,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
     private int             bugPnt             = 0;
     private int             mapSource          = TileCache.SOURCE_OPENSTREETMAP;
     private final MapMIDlet midlet;
+    private Image           loadingImg;
 
     /**
      * Map constructor.
@@ -96,6 +97,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             }
 
             centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
+            loadingImg = Image.createImage("/resources/loading.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -107,8 +109,10 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             g.drawImage(img, offX, offY, Graphics.TOP | Graphics.LEFT);
         } else {
             // If img IS null, then a repaint() is later called
-            g.setColor(0, 0, 0);
-            g.drawString("Loading...", offX, offY, Graphics.TOP | Graphics.LEFT);
+            // g.setColor(0, 0, 0);
+            // g.drawString("Loading...", offX, offY, Graphics.TOP |
+            // Graphics.LEFT);
+            g.drawImage(loadingImg, offX, offY, Graphics.TOP | Graphics.LEFT);
 
             TileCacheManager.loadImage(zoom, x, y, mapSource, this);
         }
