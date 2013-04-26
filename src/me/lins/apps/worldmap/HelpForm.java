@@ -20,7 +20,7 @@ import javax.microedition.lcdui.Spacer;
  */
 public class HelpForm extends Form implements CommandListener {
 
-    public static final Command BACK = new Command("Zurück", Command.BACK, 0);
+    public static final Command BACK = new Command("back", Command.BACK, 0);
     private final MapMIDlet     midlet;
 
     public HelpForm(MapMIDlet midlet) {

@@ -55,7 +55,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
     private boolean         follow             = false;
     private int             zoom               = 1;
     private int[]           centerTileNumbers;
-    private final Location  gpsPos;
+    private final Location  gpsPos             = null;
     private Location        scrollPos;
     private final Bug[]     bugs               = new Bug[MAXBUGS];
     private int             bugPnt             = 0;
@@ -68,7 +68,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
      */
     public Map(MapMIDlet midlet) {
         this.midlet = midlet;
-        this.gpsPos = new Location(midlet);
+
         try {
             setCommandListener(this);
 
@@ -85,8 +85,8 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
 
             GestureRegistrationManager.setListener(this, new MapGestureListener(this));
 
-            float x = midlet.getConfig().get(Config.POS_X, gpsPos.getX());
-            float y = midlet.getConfig().get(Config.POS_Y, gpsPos.getY());
+            float x = midlet.getConfig().get(Config.POS_X, 60.1f);
+            float y = midlet.getConfig().get(Config.POS_Y, 24.9f);
             scrollPos = new Location(x, y);
             this.zoom = midlet.getConfig().get(Config.ZOOM, zoom);
             String lastMapType = midlet.getConfig().get(Config.LASTMAPTYPE, "osm");
@@ -103,23 +103,37 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         }
     }
 
+    /**
+     * Draws a tile image.
+     * 
+     * @param g
+     * @param x
+     * @param y
+     * @param offX
+     * @param offY
+     * @throws IOException
+     */
     private void drawImage(Graphics g, int x, int y, int offX, int offY) throws IOException {
         Image img = TileCacheManager.loadImage(zoom, x, y, mapSource, null);
         if (img != null) {
             g.drawImage(img, offX, offY, Graphics.TOP | Graphics.LEFT);
         } else {
-            // If img IS null, then a repaint() is later called
-            // g.setColor(0, 0, 0);
-            // g.drawString("Loading...", offX, offY, Graphics.TOP |
-            // Graphics.LEFT);
+            // Draw placeholder image
             g.drawImage(loadingImg, offX, offY, Graphics.TOP | Graphics.LEFT);
 
             TileCacheManager.loadImage(zoom, x, y, mapSource, this);
         }
     }
 
-    private void drawGPSDot(Graphics g, int x, int y) {
-        if (this.gpsPos.hasLocationProvider()) {
+    /**
+     * Draws the current GPS position if available.
+     * 
+     * @param g
+     * @param x
+     * @param y
+     */
+    private void drawGPSPosition(Graphics g, int x, int y) {
+        if (this.gpsPos != null && this.gpsPos.hasLocationProvider()) {
             for (int n = 2; n < zoom * 8 / this.gpsPos.getSatellites(); n += 6) {
                 g.setColor(0, 25, 255);
                 g.drawArc(x - (n >> 1), y - (n >> 1), n, n, 0, 360);
@@ -182,27 +196,11 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             }
 
             // Draw GPS position
-            this.gpsPos.updateLocation();
-            int[] pos = posOnScreen(gpsPos.getX(), gpsPos.getY());
-            drawGPSDot(g, pos[0], pos[1]);
-
-            // Draw white bar at the bottom
-            /*
-             * g.setColor(255, 255, 255); g.fillRect(0, getHeight() - 16,
-             * getWidth() / 2, getHeight() - 16);
-             * 
-             * // Draw cursor and cursor position g.setColor(0, 0, 0);
-             * g.setFont(Font.getFont(Font.FACE_MONOSPACE, Font.STYLE_PLAIN,
-             * Font.SIZE_SMALL)); g.fillArc(getWidth() / 2 - 2, getHeight() / 2
-             * - 2, 4, 4, 0, 360); String scrollPosStr =
-             * (Double.toString(scrollPos.getX()) + "0000000").substring(0, 7) +
-             * " " + (Double.toString(scrollPos.getY()) +
-             * "0000000").substring(0, 7); g.drawString(scrollPosStr, 1,
-             * getHeight() - 1, Graphics.BOTTOM | Graphics.LEFT);
-             * 
-             * // Draw GPS-Status
-             */
-
+            if (this.gpsPos != null) {
+                this.gpsPos.updateLocation();
+                int[] pos = posOnScreen(gpsPos.getX(), gpsPos.getY());
+                drawGPSPosition(g, pos[0], pos[1]);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             midlet.getDebugDialog().addMessage("Exception", ex.getMessage());

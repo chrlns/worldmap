@@ -28,19 +28,21 @@ public class Location {
     private MapMIDlet midlet;
 
     public Location(MapMIDlet midlet) {
-        this.y = 52.0f; // y
-        this.x = 8.0f; // x
+        this();
         this.midlet = midlet;
 
         if (hasLocationProvider()) {
             enableUpdateTimer(5);
         }
-
     }
 
     public Location(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Location() {
+        this(52.0f, 8.0f);
     }
 
     protected void enableUpdateTimer(int secInterval) {

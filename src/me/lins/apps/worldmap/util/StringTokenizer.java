@@ -14,15 +14,19 @@ public class StringTokenizer {
     public static Vector getVector(String str, char div) {
         Vector v = new Vector();
 
-        String cur = "";
+        StringBuffer cur = new StringBuffer();
         for (int n = 0; n < str.length(); n++) {
             char c = str.charAt(n);
             if (c == div) {
-                v.addElement(cur);
-                cur = "";
+                v.addElement(cur.toString());
+                cur = new StringBuffer();
             } else {
-                cur = cur + c;
+                cur.append(c);
             }
+        }
+
+        if (cur.length() > 0) {
+            v.addElement(cur.toString());
         }
 
         return v;

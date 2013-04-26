@@ -57,6 +57,7 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
             ex.printStackTrace();
             this.isEnabled = false;
         } catch (Exception ex) {
+            ex.printStackTrace();
             lowMemAction(); // Resetting the RMS cache
         }
         this.successor.initialize();

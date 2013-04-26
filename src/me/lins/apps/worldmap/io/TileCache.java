@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.microedition.lcdui.Image;
 
 /**
+ * Interface representing a TileCache.
  * 
  * @author Christian Lins
  */

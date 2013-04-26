@@ -42,7 +42,8 @@ public class Config {
                 if (vkv.size() == 2) {
                     keys.put(vkv.elementAt(0), vkv.elementAt(1));
                 } else {
-                    System.err.println("Skipping invalid config string: " + kv);
+                    System.err.println("Skipping invalid config string: " + kv + " vkv.size() = "
+                            + vkv.size());
                 }
             }
 
