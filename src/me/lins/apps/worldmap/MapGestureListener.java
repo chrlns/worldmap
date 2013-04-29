@@ -7,6 +7,7 @@
 
 package me.lins.apps.worldmap;
 
+import com.nokia.mid.ui.frameanimator.FrameAnimator;
 import com.nokia.mid.ui.gestures.GestureEvent;
 import com.nokia.mid.ui.gestures.GestureInteractiveZone;
 import com.nokia.mid.ui.gestures.GestureListener;
@@ -14,10 +15,11 @@ import com.nokia.mid.ui.gestures.GestureRegistrationManager;
 
 public class MapGestureListener implements GestureListener {
 
-    public static final int DOUBLE_TAP_TRESHOLD = 500; // milliseconds
+    public static final int     DOUBLE_TAP_TRESHOLD = 500;                // milliseconds
 
-    private final Map       map;
-    private long            lastTap             = 0;
+    private final Map           map;
+    private long                lastTap             = 0;
+    private final FrameAnimator frameAnimator       = new FrameAnimator();
 
     public MapGestureListener(Map map) {
         this.map = map;
@@ -26,6 +28,8 @@ public class MapGestureListener implements GestureListener {
         GestureInteractiveZone zone = new GestureInteractiveZone(GestureInteractiveZone.GESTURE_ALL);
         zone.setRectangle(0, 0, map.getWidth(), map.getHeight());
         GestureRegistrationManager.register(map, zone);
+
+        frameAnimator.register(0, 0, (short) 0, (short) 0, this.map);
     }
 
     public void gestureAction(Object container, GestureInteractiveZone gestureInteractiveZone,
@@ -45,7 +49,6 @@ public class MapGestureListener implements GestureListener {
             case GestureInteractiveZone.GESTURE_DRAG:
                 int dx = gestureEvent.getDragDistanceX();
                 int dy = gestureEvent.getDragDistanceY();
-                System.out.println("Gesture Event: DRAG " + dx + " " + dy);
                 this.map.shiftPixel(dx, dy);
                 break;
             case GestureInteractiveZone.GESTURE_PINCH:
@@ -54,6 +57,13 @@ public class MapGestureListener implements GestureListener {
                 } else {
                     this.map.zoomIn(gestureEvent.getPinchCenterX(), gestureEvent.getPinchCenterY());
                 }
+                break;
+            case GestureInteractiveZone.GESTURE_FLICK:
+                System.out.println("Gesture Event: FLICK");
+                frameAnimator.kineticScroll(gestureEvent.getFlickSpeed(),
+                        FrameAnimator.FRAME_ANIMATOR_FREE_ANGLE,
+                        FrameAnimator.FRAME_ANIMATOR_FRICTION_MEDIUM,
+                        gestureEvent.getFlickDirection());
                 break;
         }
     }

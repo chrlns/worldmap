@@ -126,7 +126,7 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
         } catch (RecordStoreFullException ex) {
             System.out.println(ex.getMessage() + ": truncate cache");
             lowMemAction();
-        } catch (RecordStoreException ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }

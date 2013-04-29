@@ -49,7 +49,8 @@ public class Config {
 
             configKeys.destroy();
             config.closeRecordStore();
-        } catch (RecordStoreException ex) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
             midlet.getDebugDialog().addMessage("Exception", ex.getMessage());
         }
     }

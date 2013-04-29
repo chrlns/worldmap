@@ -26,6 +26,8 @@ import me.lins.apps.worldmap.osmbugs.OpenStreetBugs;
 import me.lins.apps.worldmap.util.Config;
 import me.lins.apps.worldmap.util.Math2;
 
+import com.nokia.mid.ui.frameanimator.FrameAnimator;
+import com.nokia.mid.ui.frameanimator.FrameAnimatorListener;
 import com.nokia.mid.ui.gestures.GestureRegistrationManager;
 
 /**
@@ -33,7 +35,8 @@ import com.nokia.mid.ui.gestures.GestureRegistrationManager;
  * 
  * @author Christian Lins
  */
-public class Map extends Canvas implements CommandListener, BugReceiver, TileLoadingObserver {
+public class Map extends Canvas implements CommandListener, BugReceiver, TileLoadingObserver,
+        FrameAnimatorListener {
 
     public static final int MAXBUGS            = 32;
     private final Command   cmdHelp            = new Command("help", Command.ITEM, 0);
@@ -348,5 +351,10 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
         if (repaint) {
             repaint();
         }
+    }
+
+    public void animate(FrameAnimator animator, int x, int y, short delta, short deltaX,
+            short deltaY, boolean lastFrame) {
+        shiftPixel(deltaX, deltaY);
     }
 }

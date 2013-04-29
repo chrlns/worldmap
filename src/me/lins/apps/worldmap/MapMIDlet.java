@@ -31,8 +31,8 @@ public class MapMIDlet extends MIDlet {
             VirtualKeyboard.hideOpenKeypadCommand(true);
         }
 
-        this.config = new Config(this);
         this.debugDialog = new DebugDialog(this);
+        this.config = new Config(this);
         this.map = new Map(this);
 
         TileCacheManager.initialize(this);
@@ -67,5 +67,4 @@ public class MapMIDlet extends MIDlet {
     public void destroyApp(boolean unconditional) {
         this.map.shutdown();
     }
-
 }
