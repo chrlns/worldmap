@@ -23,10 +23,10 @@ public class JarTileCache implements TileCache {
     /**
      * No initialization needed.
      * 
-     * @return Always true
+     * @return Returns the initialization return code of successor.initialize()
      */
     public boolean initialize() {
-        return true;
+        return this.successor.initialize();
     }
 
     /**
