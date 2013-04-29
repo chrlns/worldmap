@@ -37,6 +37,10 @@ public class MapGestureListener implements GestureListener {
         int type = gestureEvent.getType();
         switch (type) {
             case GestureInteractiveZone.GESTURE_TAP:
+                // Stop running animator, otherwise app will not look very
+                // responsive
+                frameAnimator.stop();
+
                 if (System.currentTimeMillis() - lastTap < DOUBLE_TAP_TRESHOLD) {
                     System.out.println("Gesture Event: DOUBLE TAP");
                     this.map.zoomIn(gestureEvent.getStartX(), gestureEvent.getStartY());
