@@ -33,7 +33,7 @@ public class AboutForm extends Form implements CommandListener {
         append(new StringItem("Version", midlet.getAppProperty("MIDlet-Version")));
         append(new StringItem("Author", midlet.getAppProperty("MIDlet-Vendor")));
         append(new Spacer(getWidth(), 5));
-        append("Geodata © OpenStreetMap and contributors, CC-BY-SA");
+        append("Geodata and Tiles © OpenStreetMap and contributors, CC-BY-SA");
 
         addCommand(BACK);
         setCommandListener(this);

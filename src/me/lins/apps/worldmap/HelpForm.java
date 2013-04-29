@@ -32,15 +32,11 @@ public class HelpForm extends Form implements CommandListener {
 
         addCommand(BACK);
 
-        append("Press '5' to zoom in.");
+        append("DRAG the map to move the view.");
         append(new Spacer(getWidth(), 1));
-        append("Press '0' to zoom out.");
+        append("DOUBLE TAP to zoom in.");
         append(new Spacer(getWidth(), 1));
-        append("Press '4' and '6' to move map west and east.");
-        append(new Spacer(getWidth(), 1));
-        append("Press '2' and '8' to move map north and south.");
-        append(new Spacer(getWidth(), 1));
-        append("Press '1' to center the map to your current location if available.");
+        append("Use PINCH gestures to zoom in and out.");
     }
 
     public void commandAction(Command cmd, Displayable disp) {

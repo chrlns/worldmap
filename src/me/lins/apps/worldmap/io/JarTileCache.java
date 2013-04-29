@@ -41,7 +41,7 @@ public class JarTileCache implements TileCache {
             return null;
         }
 
-        String uri = "/resources/" + mapSource + "/" + zoom + "/" + x + "/" + y + ".png";
+        String uri = "/res/" + mapSource + "/" + zoom + "/" + x + "/" + y + ".png";
 
         try {
             System.out.println("Retrieving " + uri + " from JAR cache");

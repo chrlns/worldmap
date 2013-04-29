@@ -100,7 +100,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             }
 
             centerTileNumbers = Math2.tileNumbers(scrollPos.getX(), scrollPos.getY(), zoom);
-            loadingImg = Image.createImage("/resources/loading.png");
+            loadingImg = Image.createImage("/res/loading.png");
         } catch (Exception e) {
             e.printStackTrace();
         }
