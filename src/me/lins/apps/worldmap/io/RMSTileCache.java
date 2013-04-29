@@ -1,5 +1,5 @@
 /*
- *  WorldMap
+ *  worldmap
  *  
  *  Copyright (C) 2010-2013 by Christian Lins <christian@lins.me>
  *  All rights reserved.
@@ -58,10 +58,8 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
             this.isEnabled = false;
         } catch (Exception ex) {
             ex.printStackTrace();
-            lowMemAction(); // Resetting the RMS cache
         }
-        this.successor.initialize();
-        return true;
+        return this.successor.initialize();
     }
 
     public boolean isEnabled() {
@@ -107,7 +105,7 @@ class RMSTileCache implements TileCache, TileLoadingObserver {
             RecordStore.deleteRecordStore("images");
             RecordStore.deleteRecordStore("index");
             initialize(); // Reinitialize
-        } catch (RecordStoreException ex) {
+        } catch (Exception ex) {
             midlet.getDebugDialog().addMessage("Excp", ex.getMessage());
             ex.printStackTrace();
         }
