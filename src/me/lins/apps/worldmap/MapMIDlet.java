@@ -13,6 +13,8 @@ import javax.microedition.midlet.MIDlet;
 import me.lins.apps.worldmap.io.TileCacheManager;
 import me.lins.apps.worldmap.util.Config;
 
+import com.nokia.mid.ui.VirtualKeyboard;
+
 /**
  * The main MIDlet of the application.
  * 
@@ -25,6 +27,10 @@ public class MapMIDlet extends MIDlet {
     private final Map         map;
 
     public MapMIDlet() {
+        if ("None".equals(System.getProperty("com.nokia.keyboard.type"))) {
+            VirtualKeyboard.hideOpenKeypadCommand(true);
+        }
+
         this.config = new Config(this);
         this.debugDialog = new DebugDialog(this);
         this.map = new Map(this);
