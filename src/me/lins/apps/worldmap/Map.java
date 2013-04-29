@@ -80,7 +80,7 @@ public class Map extends Canvas implements CommandListener, BugReceiver, TileLoa
             // addCommand(cmdBugreport);
             // addCommand(cmdShowBugs);
             // addCommand(cmdSwitchCycleMap);
-            addCommand(cmdFollow);
+            // addCommand(cmdFollow);
 
             // addCommand(cmdDebug);
             addCommand(cmdAbout);
