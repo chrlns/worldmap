@@ -21,6 +21,7 @@ public class TileLoader extends Thread {
 
     public TileLoader() {
         super("TileLoader");
+        setPriority(MIN_PRIORITY);
     }
 
     public void addTask(TileLoadingTask task) {

@@ -25,7 +25,7 @@ public class AboutForm extends Form implements CommandListener {
     private final MapMIDlet     midlet;
 
     public AboutForm(MapMIDlet midlet) {
-        super("About WorldMap");
+        super("About worldmap");
 
         this.midlet = midlet;
 
